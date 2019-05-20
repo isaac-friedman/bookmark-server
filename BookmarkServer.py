@@ -3,6 +3,7 @@
 import http.server
 import requests
 from urllib.parse import unquote, parse_qs
+import os
 
 memory = {}
 
@@ -108,6 +109,7 @@ class Shortener(http.server.BaseHTTPRequestHandler):
             self.wfile.write("Lookup failed.".encode())
 
 if __name__ == '__main__':
-    server_address = ('', 8000)
+    port = int(os.environ.get('PORT', 8000))
+    server_address = ('', port) #use port environment variable if specified
     httpd = http.server.HTTPServer(server_address, Shortener)
     httpd.serve_forever()
